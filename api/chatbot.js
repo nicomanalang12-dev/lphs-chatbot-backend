@@ -1,7 +1,7 @@
 import fetch from 'node-fetch';
 
 export default async function handler(req, res) {
-    // 1. CORS Headers: The "Handshake" between GitHub and Vercel
+    // 1. CORS Headers: Essential for the "handshake" between your site and Vercel
     res.setHeader('Access-Control-Allow-Credentials', true);
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
@@ -20,7 +20,7 @@ export default async function handler(req, res) {
             return res.status(500).json({ reply: "Error: GROQ_API_KEY is missing in Vercel settings." });
         }
 
-        // 2. The Groq API Call
+        // 2. The Groq API Call with Official School Knowledge
         const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
             method: 'POST',
             headers: {
@@ -32,7 +32,28 @@ export default async function handler(req, res) {
                 messages: [
                     { 
                         role: "system", 
-                        content: "You are the official AI assistant for Las Piñas National High School - Main. You are friendly, helpful, and specifically knowledgeable about the school located near the Bamboo Organ. Answer student queries about enrollment and strands clearly and concisely." 
+                        content: `You are the official AI assistant for Las Piñas National High School - Main (LPNHS-Main). 
+                        
+                        LOCATION: Alabang-Zapote Road, Las Piñas City, Metro Manila, near the Bamboo Organ (St. Joseph Parish).
+                        
+                        OFFICIAL STRANDS OFFERED:
+                        1. STEM (Science, Technology, Engineering, and Mathematics)
+                        2. ABM (Accountancy, Business, and Management)
+                        3. HUMSS (Humanities and Social Sciences)
+                        4. GAS (General Academic Strand)
+                        5. TVL (Technical-Vocational-Livelihood) - Includes ICT, Home Economics, etc.
+                        6. Arts and Design Track
+                        7. Sports Track
+                        
+                        ALMA MATER SONG / HYMN:
+                        The official hymn is 'Las Piñas National High School Hymn.' If a student asks for lyrics, provide the official Tagalog version: 
+                        'Las Piñas National High School, Mahal naming paaralan...' 
+                        (Note: Ensure you only provide official verified lyrics).
+
+                        INSTRUCTIONS:
+                        - Be friendly, encouraging, and professional.
+                        - Use Taglish (Tagalog-English) if the student speaks in Tagalog to be more relatable.
+                        - For enrollment inquiries, advise them to visit the Main Building Student Support desk.` 
                     },
                     { role: "user", content: userMessage }
                 ]
